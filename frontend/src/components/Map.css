@@ -1,0 +1,131 @@
+/* 🌸 Background */
+.map-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fdf1f5, #f3f0ff);
+    padding: 30px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ✨ Glow blobs */
+.map-page::before,
+.map-page::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 0;
+}
+
+.map-page::before {
+    width: 300px;
+    height: 300px;
+    background: #ffb6d9;
+    top: -60px;
+    left: -60px;
+}
+
+.map-page::after {
+    width: 300px;
+    height: 300px;
+    background: #c3b1ff;
+    bottom: -60px;
+    right: -60px;
+}
+
+/* ✨ Header */
+.map-header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 20px;
+}
+
+.map-header h1 {
+    font-size: 36px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #ff7eb3, #8e7bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.map-header p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* 🧊 Glass map container */
+.map-container {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(16px);
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.map-container:hover {
+    transform: scale(1.01);
+}
+
+/* 🗺️ Map */
+.leaflet-map {
+    height: 75vh;
+    width: 100%;
+    border-radius: 20px;
+}
+
+/* 📊 Floating legend */
+.map-legend {
+    position: absolute;
+    top: 120px;
+    right: 40px;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.map-legend h4 {
+    margin-bottom: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 6px 0;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.red {
+    background: #ff4d6d;
+}
+
+.yellow {
+    background: #ffd166;
+}
+
+.green {
+    background: #06d6a0;
+}
+
+/* 💬 Popup */
+.popup h3 {
+    margin: 0;
+    color: #ff5fa2;
+}
+
+.popup p {
+    margin: 5px 0;
+    font-size: 14px;
+}
