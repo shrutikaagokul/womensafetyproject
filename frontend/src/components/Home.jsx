@@ -326,7 +326,10 @@ export default function Home() {
                         <div style={{ marginTop: '32px' }}>
                             <button
                                 className="btn-primary"
-                                onClick={() => showToast('Launching full map...')}
+                                onClick={() => {
+                                    showToast('Launching full map...');
+                                    navigate("/map");
+                                }}
                                 {...hoverCursor}
                             >
                                 <span>🗺️</span><span>Open Full Map</span>
@@ -346,10 +349,10 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* ── FEATURES ────────────────────────────────────────────────────── */}
-            <section className="features-section">
+            < section className="features-section" >
                 <div className="features-inner">
                     <div className="features-header reveal">
                         <div className="section-label">Why S.P.E.A.K.</div>
@@ -374,7 +377,7 @@ export default function Home() {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
             <button onClick={() => navigate("/report")}>
                 Report Incident
             </button>
