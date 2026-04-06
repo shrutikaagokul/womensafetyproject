@@ -1,65 +1,85 @@
-/* Background */
-.login-container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
 
-    background: linear-gradient(135deg, #F7D6E0, #B8A1E3);
-    font-family: 'Poppins', sans-serif;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/* Card */
-.login-card {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 40px;
-    border-radius: 16px;
-    width: 300px;
-
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-
+.page {
+    min-height: 680px;
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: #f4eeff;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.bg-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.card-wrap {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 440px;
+    margin: 32px 16px;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(220, 200, 255, 0.45);
+    border-radius: 28px;
+    padding: 44px 42px 38px;
+    backdrop-filter: blur(22px);
+    box-shadow: 0 8px 48px rgba(180, 140, 240, 0.13);
+}
+
+.brand-row {
+    text-align: center;
+    margin-bottom: 34px;
+}
+
+.brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #3d2060;
+}
+
+.welcome-text {
+    font-size: 14px;
+    color: #7a5a98;
+    margin-bottom: 24px;
     text-align: center;
 }
 
-/* Title */
-.login-card h2 {
-    margin-bottom: 10px;
-    color: #2E2E2E;
+/* INPUT */
+.field-input {
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    padding: 0 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(184, 151, 245, 0.3);
+    background: rgba(248, 244, 255, 0.6);
 }
 
-/* Inputs */
-.login-card input {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    outline: none;
-    font-size: 14px;
-}
-
-/* Input focus */
-.login-card input:focus {
-    border-color: #B8A1E3;
-    box-shadow: 0 0 5px rgba(184, 161, 227, 0.5);
-}
-
-/* Button */
-.login-card button {
-    padding: 12px;
-    background: #B8A1E3;
-    color: white;
+/* BUTTON */
+.sign-btn {
+    width: 100%;
+    height: 50px;
     border: none;
-    border-radius: 10px;
+    border-radius: 14px;
+    color: white;
+    background: linear-gradient(135deg, #e07aaa, #b897f5, #8bc4f8);
     cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-}
-
-/* Hover effect */
-.login-card button:hover {
-    background: #a88be0;
-    transform: scale(1.05);
 }
