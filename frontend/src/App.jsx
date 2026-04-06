@@ -1,19 +1,38 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// Pages
+import Home from "./components/Home";
 import ReportForm from "./components/ReportForm";
-import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import MapView from "./components/MapView";
+import Login from "./components/Login"; // optional
 
 function App() {
     return (
-        <Router>
+        <BrowserRouter>
             <Routes>
-                <Route path="/" element={<ReportForm />} />
-                <Route path="/login" element={<Login />} />
+
+                {/* 🏠 Home */}
+                <Route path="/" element={<Home />} />
+
+                {/* 🚨 Report */}
+                <Route path="/report" element={<ReportForm />} />
+
+                {/* 📊 Dashboard */}
                 <Route path="/dashboard" element={<Dashboard />} />
+
+                {/* 🗺️ Map */}
                 <Route path="/map" element={<MapView />} />
+
+                {/* 🔐 Login (optional) */}
+                <Route path="/login" element={<Login />} />
+
+                {/* ❌ Fallback */}
+                <Route path="*" element={<Home />} />
+
             </Routes>
-        </Router>
+        </BrowserRouter>
     );
 }
 

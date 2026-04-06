@@ -1,0 +1,183 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #F7D6E0, #B8A1E3);
+}
+
+/* Container */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
+
+/* Glass Card */
+.report-form {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    padding: 25px;
+    width: 380px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Titles */
+.title {
+    text-align: center;
+    margin: 0;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Input group */
+.input-group label {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Textarea wrapper */
+.textarea-wrapper {
+    position: relative;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #F0E6EF;
+    resize: none;
+    height: 90px;
+}
+
+/* Mic icon */
+.mic {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 8px;
+    border: 1px solid #F0E6EF;
+}
+
+/* Inner shadow */
+input,
+textarea {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Focus glow */
+input:focus,
+textarea:focus {
+    outline: none;
+    border: 1px solid #B8A1E3;
+    box-shadow: 0 0 8px rgba(184, 161, 227, 0.4);
+}
+
+/* AI Pulse */
+.ai-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #B8A1E3;
+    margin: 8px 0;
+}
+
+.pulse {
+    width: 8px;
+    height: 8px;
+    background: #B8A1E3;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Location box */
+.location-box {
+    background: rgba(240, 230, 239, 0.4);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+/* Coordinates */
+.coords {
+    display: flex;
+    gap: 5px;
+}
+
+/* Upload */
+.upload-box {
+    margin-top: 10px;
+}
+
+.drop-zone {
+    border: 2px dashed #B8A1E3;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.file-name {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Buttons */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #B8A1E3, #A78BFA);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
+}
+
+/* Quick Exit */
+.quick-exit {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
