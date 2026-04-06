@@ -1,0 +1,65 @@
+/* Background */
+.login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(135deg, #F7D6E0, #B8A1E3);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Card */
+.login-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 16px;
+    width: 300px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+}
+
+/* Title */
+.login-card h2 {
+    margin-bottom: 10px;
+    color: #2E2E2E;
+}
+
+/* Inputs */
+.login-card input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 14px;
+}
+
+/* Input focus */
+.login-card input:focus {
+    border-color: #B8A1E3;
+    box-shadow: 0 0 5px rgba(184, 161, 227, 0.5);
+}
+
+/* Button */
+.login-card button {
+    padding: 12px;
+    background: #B8A1E3;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+/* Hover effect */
+.login-card button:hover {
+    background: #a88be0;
+    transform: scale(1.05);
+}
