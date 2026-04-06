@@ -1,7 +1,3 @@
 node_modules/
 dist/
-dist-ssr/
-*.local
-.env
-.env.*
-.DS_Store
+package0lock.json
