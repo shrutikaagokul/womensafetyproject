@@ -155,15 +155,15 @@ export default function Home() {
             <div className="cursor-ring" ref={ringRef} />
 
             {/* ── NAVBAR ──────────────────────────────────────────────────────── */}
+            {/* ── NAVBAR ──────────────────────────────────────────────────────── */}
             <nav className="navbar">
                 <a href="#" className="nav-logo" {...hoverCursor}>S.P.E.A.K.</a>
 
                 <ul className="nav-links">
-                    {['Home', 'Report', 'Dashboard', 'Map'].map((item) => (
-                        <li key={item}>
-                            <a href="#" {...hoverCursor}>{item}</a>
-                        </li>
-                    ))}
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/report">Report</Link></li>
+                    <li><Link to="/dashboard">Dashboard</Link></li>
+                    <li><Link to="/map">Map</Link></li>
                 </ul>
 
                 <div className="nav-right">
@@ -191,22 +191,24 @@ export default function Home() {
                         >
                             👤
                         </button>
+
                         <div className={`profile-dropdown ${profileOpen ? 'open' : ''}`}>
                             <Link to="/dashboard" {...hoverCursor}> My Reports</Link>
                             <Link to="/settings" {...hoverCursor}> Settings</Link>
                             <div className="dropdown-divider" />
                             <Link to="/" style={{ color: "#f0578e" }} {...hoverCursor}> Logout</Link>
                         </div>
-
-                        {/* Quick exit */}
-                        <button
-                            className="quick-exit"
-                            onClick={() => (window.location.href = 'https://google.com')}
-                            {...hoverCursor}
-                        >
-                            ⚡ Quick Exit
-                        </button>
                     </div>
+
+                    {/* Quick exit */}
+                    <button
+                        className="quick-exit"
+                        onClick={() => (window.location.href = 'https://google.com')}
+                        {...hoverCursor}
+                    >
+                        ⚡ Quick Exit
+                    </button>
+                </div> {/* ✅ THIS WAS MISSING */}
             </nav>
 
             {/* ── TICKER ──────────────────────────────────────────────────────── */}
@@ -252,8 +254,7 @@ export default function Home() {
                     <div className="hero-buttons">
                         <button
                             className="btn-primary"
-                            onClick={() => showToast('Opening report form...')}
-                            {...hoverCursor}
+                            onClick={() => navigate("/report")}
                         >
                             <span>🔴</span><span>Report Incident</span>
                         </button>
