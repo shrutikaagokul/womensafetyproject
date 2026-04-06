@@ -392,7 +392,8 @@ export default function MapView() {
                         center={mapCenter}
                         zoom={13}
                         className="mp-leaflet"
-                        whenCreated={(map) => (mapRef.current = map)}
+                        style={{ height: "100%", width: "100%" }}
+                        ref={mapRef}
                         zoomControl={false}
                     >
                         {/* Tile layer — dark/light aware */}

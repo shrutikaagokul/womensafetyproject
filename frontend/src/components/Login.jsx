@@ -38,7 +38,13 @@ function Login() {
                         placeholder="Password"
                     />
 
-                    <button className="sign-btn" onClick={() => navigate("/dashboard")}>
+                    <button 
+                        className="sign-btn" 
+                        onClick={() => {
+                            localStorage.setItem("isAuthenticated", "true");
+                            navigate("/");
+                        }}
+                    >
                         Sign in to S.P.E.A.K
                     </button>
 

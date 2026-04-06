@@ -196,7 +196,18 @@ export default function Home() {
                             <Link to="/dashboard" {...hoverCursor}> My Reports</Link>
                             <Link to="/settings" {...hoverCursor}> Settings</Link>
                             <div className="dropdown-divider" />
-                            <Link to="/" style={{ color: "#f0578e" }} {...hoverCursor}> Logout</Link>
+                            <a 
+                                href="#" 
+                                style={{ color: "#f0578e" }} 
+                                {...hoverCursor} 
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    localStorage.removeItem("isAuthenticated");
+                                    navigate("/login");
+                                }}
+                            >
+                                Logout
+                            </a>
                         </div>
                     </div>
 

@@ -74,8 +74,8 @@ body::before {
    CUSTOM CURSOR
    ============================================================ */
 .cursor {
-    width: 14px;
-    height: 14px;
+    width: 10px;
+    height: 10px;
     background: var(--pink-500);
     border-radius: 50%;
     position: fixed;
@@ -84,8 +84,7 @@ body::before {
     pointer-events: none;
     z-index: 10000;
     transform: translate(-50%, -50%);
-    transition: transform 0.1s, background 0.2s;
-    mix-blend-mode: multiply;
+    transition: transform 0.18s ease;
 }
 
 .cursor-ring {
@@ -99,8 +98,8 @@ body::before {
     pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%);
-    transition: all 0.18s ease;
-    opacity: 0.7;
+    transition: transform 0.18s ease;
+    opacity: 0.65;
 }
 
 /* ============================================================
