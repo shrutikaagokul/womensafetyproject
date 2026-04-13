@@ -1,0 +1,791 @@
+/* ═══════════════════════════════════════════════════════════════════
+   AdminLogin.css — S.P.E.A.K. Admin Command Access
+   Aesthetic: Dark command-centre · Amber/red accents · Monospace
+   Intentionally DIFFERENT from the soft user-facing Login.css
+   ═══════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap');
+
+/* ── Tokens ──────────────────────────────────────────────────────── */
+:root {
+    --al-bg: #080c14;
+    --al-bg-card: #0c1220;
+    --al-bg-card2: #111827;
+    --al-amber: #f5a623;
+    --al-amber-dim: rgba(245, 166, 35, 0.15);
+    --al-amber-glow: rgba(245, 166, 35, 0.35);
+    --al-red: #e05c5c;
+    --al-green: #5ce0a0;
+    --al-blue: #5c9ee0;
+    --al-text: #c8d8e8;
+    --al-text-dim: #607080;
+    --al-border: rgba(245, 166, 35, 0.20);
+    --al-border-bright: rgba(245, 166, 35, 0.55);
+    --al-shadow: 0 0 60px rgba(245, 166, 35, 0.08), 0 24px 64px rgba(0, 0, 0, 0.7);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Root ────────────────────────────────────────────────────────── */
+.al-root {
+    min-height: 100vh;
+    background: var(--al-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Share Tech Mono', monospace;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+}
+
+/* ── Glitch shake ────────────────────────────────────────────────── */
+.al-glitch {
+    animation: al-shake 0.4s ease;
+}
+
+@keyframes al-shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-6px) skewX(-2deg);
+    }
+
+    40% {
+        transform: translateX(6px) skewX(2deg);
+    }
+
+    60% {
+        transform: translateX(-4px);
+    }
+
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+/* ── Custom cursor ───────────────────────────────────────────────── */
+.al-cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--al-amber);
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    transition: transform .15s ease;
+    box-shadow: 0 0 8px var(--al-amber-glow);
+}
+
+.al-cursor-ring {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--al-amber);
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: transform .15s ease;
+    opacity: .5;
+}
+
+/* ── Scan line overlay ───────────────────────────────────────────── */
+.al-scanline {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 0, 0, 0.08) 3px,
+            rgba(0, 0, 0, 0.08) 4px);
+    animation: al-scan 8s linear infinite;
+}
+
+@keyframes al-scan {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 100vh;
+    }
+}
+
+/* ── Grid background ─────────────────────────────────────────────── */
+.al-grid-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px 0;
+}
+
+.al-grid-row {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(245, 166, 35, 0.06) 30%, rgba(245, 166, 35, 0.06) 70%, transparent 100%);
+}
+
+/* ── Corner brackets ─────────────────────────────────────────────── */
+.al-corner {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.al-corner-tl {
+    top: 16px;
+    left: 16px;
+    border-top: 2px solid var(--al-amber);
+    border-left: 2px solid var(--al-amber);
+}
+
+.al-corner-tr {
+    top: 16px;
+    right: 16px;
+    border-top: 2px solid var(--al-amber);
+    border-right: 2px solid var(--al-amber);
+}
+
+.al-corner-bl {
+    bottom: 16px;
+    left: 16px;
+    border-bottom: 2px solid var(--al-amber);
+    border-left: 2px solid var(--al-amber);
+}
+
+.al-corner-br {
+    bottom: 16px;
+    right: 16px;
+    border-bottom: 2px solid var(--al-amber);
+    border-right: 2px solid var(--al-amber);
+}
+
+/* ── Status bar ──────────────────────────────────────────────────── */
+.al-statusbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    height: 36px;
+    background: rgba(8, 12, 20, 0.95);
+    border-bottom: 1px solid var(--al-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 56px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: .12em;
+    color: var(--al-text-dim);
+}
+
+.al-status-center {
+    color: var(--al-amber);
+    letter-spacing: .18em;
+}
+
+.al-status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.al-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: al-blink 2s ease-in-out infinite;
+}
+
+.al-dot-green {
+    background: var(--al-green);
+    box-shadow: 0 0 6px var(--al-green);
+}
+
+.al-dot-amber {
+    background: var(--al-amber);
+    box-shadow: 0 0 6px var(--al-amber-glow);
+}
+
+@keyframes al-blink {
+
+    0%,
+    100% {
+        opacity: 1
+    }
+
+    50% {
+        opacity: .3
+    }
+}
+
+/* ── Main wrap ───────────────────────────────────────────────────── */
+.al-wrap {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 480px;
+    padding: 56px 20px 24px;
+}
+
+/* ── Card ────────────────────────────────────────────────────────── */
+.al-card {
+    background: var(--al-bg-card);
+    border: 1px solid var(--al-border);
+    border-radius: 4px;
+    padding: 44px 44px 36px;
+    box-shadow: var(--al-shadow);
+    position: relative;
+    overflow: hidden;
+    animation: al-card-in .5s cubic-bezier(.22, 1, .36, 1) both;
+
+    /* Subtle inner glow on amber side */
+    background-image: radial-gradient(ellipse at top right, rgba(245, 166, 35, 0.04) 0%, transparent 60%);
+}
+
+@keyframes al-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Top amber accent line */
+.al-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--al-amber), transparent);
+}
+
+/* Granted state */
+.al-card-granted {
+    border-color: rgba(92, 224, 160, 0.4);
+    background-image: radial-gradient(ellipse at center, rgba(92, 224, 160, 0.06) 0%, transparent 70%);
+}
+
+.al-card-granted::before {
+    background: linear-gradient(90deg, transparent, var(--al-green), transparent);
+}
+
+/* Denied state */
+.al-card-denied {
+    border-color: rgba(224, 92, 92, 0.5);
+    background-image: radial-gradient(ellipse at center, rgba(224, 92, 92, 0.07) 0%, transparent 70%);
+}
+
+.al-card-denied::before {
+    background: linear-gradient(90deg, transparent, var(--al-red), transparent);
+}
+
+/* ── Header ──────────────────────────────────────────────────────── */
+.al-header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.al-shield-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.al-shield {
+    font-size: 3rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 12px rgba(245, 166, 35, 0.5));
+}
+
+.al-shield-ring {
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 1px solid var(--al-amber);
+    opacity: .3;
+    animation: al-ring-pulse 3s ease-in-out infinite;
+}
+
+@keyframes al-ring-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: .3;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: .08;
+    }
+}
+
+.al-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: .22em;
+    color: var(--al-amber);
+    text-shadow: 0 0 20px var(--al-amber-glow), 0 0 40px rgba(245, 166, 35, 0.15);
+}
+
+.al-brand-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .20em;
+    color: var(--al-text-dim);
+    margin-top: 6px;
+    text-transform: uppercase;
+}
+
+.al-divider-line {
+    height: 1px;
+    margin: 20px 0 16px;
+    background: linear-gradient(90deg, transparent, var(--al-border-bright), transparent);
+}
+
+.al-warning-strip {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: .14em;
+    color: var(--al-red);
+    opacity: .8;
+    border: 1px solid rgba(224, 92, 92, 0.25);
+    border-radius: 2px;
+    padding: 6px 14px;
+    background: rgba(224, 92, 92, 0.05);
+    animation: al-warning-fade 3s ease-in-out infinite alternate;
+}
+
+@keyframes al-warning-fade {
+    from {
+        opacity: .6
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+/* ── Fields ──────────────────────────────────────────────────────── */
+.al-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.al-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.al-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .18em;
+    color: var(--al-amber);
+    opacity: .8;
+}
+
+.al-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--al-border);
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.35);
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.al-input-wrap:focus-within {
+    border-color: var(--al-amber-glow);
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.08), inset 0 0 20px rgba(245, 166, 35, 0.03);
+}
+
+.al-input-prefix {
+    padding: 0 12px;
+    color: var(--al-amber);
+    font-size: .75rem;
+    opacity: .6;
+    flex-shrink: 0;
+}
+
+.al-input {
+    flex: 1;
+    height: 48px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .9rem;
+    color: var(--al-text);
+    letter-spacing: .06em;
+    padding-right: 8px;
+}
+
+.al-input::placeholder {
+    color: var(--al-text-dim);
+    opacity: .6;
+}
+
+.al-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 50px #0c1220 inset;
+    -webkit-text-fill-color: var(--al-text);
+}
+
+.al-eye {
+    padding: 0 14px;
+    background: none;
+    border: none;
+    cursor: none;
+    color: var(--al-text-dim);
+    font-size: .9rem;
+    transition: color .18s;
+    line-height: 1;
+}
+
+.al-eye:hover {
+    color: var(--al-amber);
+}
+
+/* ── Error ───────────────────────────────────────────────────────── */
+.al-error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .78rem;
+    color: var(--al-red);
+    letter-spacing: .06em;
+    border: 1px solid rgba(224, 92, 92, 0.3);
+    background: rgba(224, 92, 92, 0.07);
+    border-radius: 2px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    animation: al-error-in .25s ease;
+}
+
+@keyframes al-error-in {
+    from {
+        opacity: 0;
+        transform: translateX(-6px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0)
+    }
+}
+
+.al-error-icon {
+    font-weight: bold;
+    font-size: .85rem;
+}
+
+/* ── Scanning bar ────────────────────────────────────────────────── */
+.al-scan-wrap {
+    margin-bottom: 20px;
+}
+
+.al-scan-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: .16em;
+    color: var(--al-amber);
+    margin-bottom: 8px;
+    animation: al-blink 1s ease-in-out infinite;
+}
+
+.al-scan-track {
+    height: 3px;
+    background: rgba(245, 166, 35, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.al-scan-beam {
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, var(--al-amber), transparent);
+    animation: al-beam 1.2s ease-in-out infinite;
+}
+
+@keyframes al-beam {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(350%);
+    }
+}
+
+/* ── Submit button ───────────────────────────────────────────────── */
+.al-submit {
+    width: 100%;
+    height: 52px;
+    background: transparent;
+    border: 1px solid var(--al-amber);
+    border-radius: 2px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .22em;
+    color: var(--al-amber);
+    cursor: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background .2s, box-shadow .2s, color .2s;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.al-submit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--al-amber);
+    transform: translateX(-100%);
+    transition: transform .3s ease;
+    z-index: 0;
+}
+
+.al-submit:hover::before {
+    transform: translateX(0);
+}
+
+.al-submit:hover {
+    color: var(--al-bg);
+    box-shadow: 0 0 24px var(--al-amber-glow);
+}
+
+.al-submit span {
+    position: relative;
+    z-index: 1;
+}
+
+.al-submit:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.al-submit-bracket {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem;
+    opacity: .7;
+}
+
+/* ── Role hints ──────────────────────────────────────────────────── */
+.al-role-hints {
+    margin-bottom: 28px;
+}
+
+.al-role-hint-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .6rem;
+    letter-spacing: .18em;
+    color: var(--al-text-dim);
+    margin-bottom: 10px;
+}
+
+.al-role-pills {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.al-role-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid;
+    border-radius: 2px;
+    padding: 7px 12px;
+    background: rgba(0, 0, 0, 0.2);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: .82rem;
+    font-weight: 500;
+    letter-spacing: .06em;
+    color: var(--al-text-dim);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+.al-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .62rem;
+    letter-spacing: .08em;
+    color: var(--al-text-dim);
+    border-top: 1px solid var(--al-border);
+    padding-top: 18px;
+    text-align: center;
+}
+
+.al-back-link {
+    background: none;
+    border: none;
+    cursor: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .10em;
+    color: var(--al-text-dim);
+    text-decoration: underline;
+    transition: color .18s;
+}
+
+.al-back-link:hover {
+    color: var(--al-amber);
+}
+
+/* ── ACCESS GRANTED screen ───────────────────────────────────────── */
+.al-granted-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0 8px;
+    animation: al-granted-in .4s ease;
+}
+
+@keyframes al-granted-in {
+    from {
+        opacity: 0;
+        transform: scale(.95)
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1)
+    }
+}
+
+.al-granted-icon {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+}
+
+.al-granted-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .3em;
+    color: var(--al-green);
+    text-shadow: 0 0 16px rgba(92, 224, 160, 0.5);
+    margin-bottom: 14px;
+}
+
+.al-granted-role {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: .12em;
+    margin-bottom: 8px;
+    min-height: 2rem;
+}
+
+.al-cursor-blink {
+    animation: al-blink .7s step-end infinite;
+    font-weight: 300;
+}
+
+.al-granted-desc {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .10em;
+    color: var(--al-text-dim);
+    margin-bottom: 28px;
+}
+
+.al-granted-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(92, 224, 160, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.al-granted-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--al-green);
+    animation: al-fill-bar 2s ease forwards;
+    box-shadow: 0 0 10px rgba(92, 224, 160, 0.5);
+}
+
+@keyframes al-fill-bar {
+    from {
+        width: 0%
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+.al-granted-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .14em;
+    color: var(--al-text-dim);
+    animation: al-blink 1s ease-in-out infinite;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 520px) {
+    .al-card {
+        padding: 32px 22px 28px;
+    }
+
+    .al-brand {
+        font-size: 1.5rem;
+    }
+
+    .al-statusbar {
+        padding: 0 20px;
+        font-size: .58rem;
+    }
+
+    .al-status-center {
+        display: none;
+    }
+
+    .al-corner {
+        width: 28px;
+        height: 28px;
+    }
+}

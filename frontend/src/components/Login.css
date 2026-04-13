@@ -797,3 +797,26 @@ html {
         grid-template-columns: 1fr;
     }
 }
+
+/* ── Admin access link ───────────────────────────────────── */
+.lg-admin-link {
+    text-align: center;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(168, 132, 240, 0.12);
+}
+
+.lg-admin-link a {
+    font-family: "DM Sans", sans-serif;
+    font-size: .75rem;
+    color: var(--text-soft);
+    text-decoration: none;
+    letter-spacing: .04em;
+    opacity: .6;
+    transition: opacity .2s, color .2s;
+}
+
+.lg-admin-link a:hover {
+    opacity: 1;
+    color: var(--lavender-400);
+}

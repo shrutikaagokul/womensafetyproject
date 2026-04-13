@@ -359,7 +359,13 @@ export default function Login() {
                         }
                     </div>
 
-                </div>
+
+                    {/* ── Admin access link ────────────────────────────────── */}
+                    <div className="lg-admin-link">
+                        <Link to="/admin-login" {...hc}>
+                            🔒 Admin Access
+                        </Link>
+                    </div></div>
             </div>
 
             {/* ── Toast ───────────────────────────────────────────── */}
