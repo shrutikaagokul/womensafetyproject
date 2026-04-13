@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import Chart from "chart.js/auto";
 import "./Dashboard.css";
 
-// ─── Mock incident feed (simulates real-time) ─────────────────────────────────
-const INITIAL_FEED = [
+const API_BASE = '/api';
+
+// ─── Fallback mock data (used when backend is offline) ───────────────────────
+const MOCK_FEED = [
     { id: 1, type: "danger", icon: "🔴", location: "Anna Nagar", desc: "Harassment reported near bus stop", time: "2 min ago", status: "Active" },
     { id: 2, type: "warning", icon: "🟡", location: "T. Nagar", desc: "Suspicious activity near park", time: "11 min ago", status: "Reviewing" },
     { id: 3, type: "safe", icon: "🟢", location: "Adyar", desc: "Safe zone verified by responders", time: "18 min ago", status: "Resolved" },
@@ -47,10 +49,11 @@ export default function Dashboard() {
     const [profileOpen, setProfileOpen] = useState(false);
     const [toast, setToast] = useState("");
     const [toastVisible, setToastVisible] = useState(false);
-    const [feed, setFeed] = useState(INITIAL_FEED);
+    const [feed, setFeed] = useState(MOCK_FEED);
     const [filter, setFilter] = useState("all");
-    const [kpis, setKpis] = useState({ total: 127, active: 5, resolved: 98, safeZones: 14 });
+    const [kpis, setKpis] = useState({ total: 0, active: 0, resolved: 0, safeZones: 14 });
     const [pulse, setPulse] = useState(false);
+    const [backendOnline, setBackendOnline] = useState(false);
 
     // ── Chart refs ─────────────────────────────────────────────────────────────
     const lineRef = useRef(null);
@@ -87,11 +90,41 @@ export default function Dashboard() {
         const id = setInterval(() => {
             setPulse(true);
             setTimeout(() => setPulse(false), 1200);
-            // Bump one KPI slightly
-            setKpis(k => ({ ...k, total: k.total + 1 }));
         }, 12000);
         return () => clearInterval(id);
     }, []);
+
+    // ── Fetch live data from backend ──────────────────────────────────────────
+    const fetchDashboard = useCallback(async () => {
+        try {
+            const res = await fetch(`${API_BASE}/dashboard-stats`);
+            if (!res.ok) throw new Error('bad response');
+            const data = await res.json();
+            setKpis({
+                total:     data.total     ?? 0,
+                active:    data.active    ?? 0,
+                resolved:  data.resolved  ?? 0,
+                safeZones: data.safe_zones ?? 14,
+            });
+            if (data.recent_feed && data.recent_feed.length > 0) {
+                setFeed(data.recent_feed);
+            } else if (!backendOnline) {
+                setFeed(MOCK_FEED);
+            }
+            setBackendOnline(true);
+            setPulse(true);
+            setTimeout(() => setPulse(false), 1200);
+        } catch {
+            // backend offline — keep mock data
+            if (!backendOnline) setFeed(MOCK_FEED);
+        }
+    }, [backendOnline]);
+
+    useEffect(() => {
+        fetchDashboard();
+        const id = setInterval(fetchDashboard, 15000);
+        return () => clearInterval(id);
+    }, [fetchDashboard]);
 
     // ── Charts ─────────────────────────────────────────────────────────────────
     useEffect(() => {

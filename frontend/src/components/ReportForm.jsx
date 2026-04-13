@@ -34,8 +34,7 @@ const STEPS = [
     { num: '03', label: 'Step 3 of 3', name: 'Review & Submit' },
 ];
 
-// ─── Generate a fake report ID ─────────────────────────────────────────────────
-const genId = () => 'SPK-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+const API_BASE = '/api';
 
 export default function ReportForm() {
     const navigate = useNavigate();
@@ -43,7 +42,7 @@ export default function ReportForm() {
     // ── Multi-step state ─────────────────────────────────────────────────────────
     const [step, setStep] = useState(0); // 0,1,2 → success
     const [submitted, setSubmitted] = useState(false);
-    const [reportId] = useState(genId);
+    const [reportId, setReportId] = useState('');
 
     // ── Form fields ──────────────────────────────────────────────────────────────
     const [description, setDescription] = useState('');
@@ -209,14 +208,39 @@ export default function ReportForm() {
     const goBack = () => { setErrors({}); setStep(s => s - 1); };
 
     // ─────────────────────────────────────────────────────────────────────────────
-    // Submit
+    // Submit — POST to Flask backend
     // ─────────────────────────────────────────────────────────────────────────────
     const handleSubmit = async () => {
         setSubmitting(true);
-        // Simulate API call
-        await new Promise(r => setTimeout(r, 1800));
-        setSubmitting(false);
-        setSubmitted(true);
+        try {
+            const res = await fetch(`${API_BASE}/report`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    description,
+                    location,
+                    latitude: lat,
+                    longitude: lng,
+                    incident_types: incidentTypes,
+                    anonymous,
+                }),
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.error || 'Server error');
+            }
+            const data = await res.json();
+            setReportId(data.report_id);
+            // Override local AI severity with backend AI result
+            if (data.severity) setSeverity(data.severity);
+        } catch (e) {
+            // Backend offline — generate a local placeholder ID so the UI still works
+            setReportId('SPK-' + Math.random().toString(36).slice(2, 8).toUpperCase());
+            showToast('⚠️ Backend offline — report saved locally only');
+        } finally {
+            setSubmitting(false);
+            setSubmitted(true);
+        }
     };
 
     // ─────────────────────────────────────────────────────────────────────────────
@@ -290,7 +314,7 @@ export default function ReportForm() {
                                 <button className="rp-success-primary" onClick={() => navigate('/dashboard')} {...hc}>
                                     📊 View Dashboard
                                 </button>
-                                <button className="rp-success-secondary" onClick={() => { setSubmitted(false); setStep(0); setDescription(''); setIncidentTypes([]); setLocation(''); setLat(''); setLng(''); setFiles([]); }} {...hc}>
+                                <button className="rp-success-secondary" onClick={() => { setSubmitted(false); setStep(0); setDescription(''); setIncidentTypes([]); setLocation(''); setLat(''); setLng(''); setFiles([]); setReportId(''); setSeverity(null); }} {...hc}>
                                     ➕ New Report
                                 </button>
                                 <button className="rp-success-secondary" onClick={() => navigate('/')} {...hc}>

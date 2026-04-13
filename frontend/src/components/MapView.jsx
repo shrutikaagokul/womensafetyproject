@@ -157,7 +157,7 @@ export default function MapView() {
         const loadData = async () => {
             setLoading(true);
             try {
-                const res = await fetch("http://127.0.0.1:5000/map-data");
+                const res = await fetch("/api/map-data");
                 if (!res.ok) throw new Error("No backend");
                 const raw = await res.json();
                 // Normalize backend shape → internal shape
@@ -194,10 +194,10 @@ export default function MapView() {
         };
         loadData();
 
-        // Poll every 30 s for real-time updates
+        // Poll every 10 s for near-real-time updates
         const interval = setInterval(async () => {
             try {
-                const res = await fetch("http://127.0.0.1:5000/map-data");
+                const res = await fetch("/api/map-data");
                 if (!res.ok) return;
                 const raw = await res.json();
                 const normalized = raw.map((r, i) => ({
@@ -210,9 +210,14 @@ export default function MapView() {
                     time: r.time || "Recently",
                     address: r.address || "Unknown location",
                 }));
-                setIncidents(normalized);
-            } catch { /* backend offline — keep seed data */ }
-        }, 30000);
+                setIncidents(prev => {
+                    // Show live toast when new incidents arrive
+                    const newOnes = normalized.filter(n => !prev.find(p => p.id === n.id));
+                    if (newOnes.length > 0) setLiveCount(c => c + newOnes.length);
+                    return normalized;
+                });
+            } catch { /* backend offline — keep current data */ }
+        }, 10000);
         return () => clearInterval(interval);
     }, []);
 
@@ -443,7 +448,7 @@ export default function MapView() {
                                 </Popup>
                             </Marker>
                         ))}
-
+                        
                         {/* User location marker */}
                         {userLocation && (
                             <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon}>

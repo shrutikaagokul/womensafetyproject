@@ -1,51 +1,69 @@
-# ai_analysis.py
+# ai_analysis.py — S.P.E.A.K. AI Severity Engine
 
 def analyze_text(description):
+    """
+    Analyzes incident description and returns severity level.
+    Returns: "high", "medium", or "low" (lowercase, consistent with frontend)
+    """
     if not description:
-        return {"severity": "Low", "reason": "No content"}
+        return "low"
 
-    description = description.lower()
+    text = description.lower()
 
-    if "kill" in description or "rape" in description:
-        return {"severity": "High", "reason": "Severe threat detected"}
+    # ── Tier 1: Critical / High severity keywords ──────────────────────────────
+    high_keywords = [
+        "kill", "killed", "murder", "rape", "raped", "assault", "assaulted",
+        "attack", "attacked", "knife", "gun", "weapon", "stab", "stabbed",
+        "kidnap", "kidnapped", "abduct", "abducted", "threaten", "threatened",
+        "death threat", "beat", "beaten", "choke", "choked", "burn", "acid"
+    ]
 
-    if "threat" in description or "stalk" in description:
-        return {"severity": "Medium", "reason": "Harassment detected"}
+    # ── Tier 2: Moderate / Medium severity keywords ────────────────────────────
+    medium_keywords = [
+        "stalk", "stalking", "stalked", "follow", "following", "followed",
+        "harass", "harassment", "harassed", "touch", "grope", "groped",
+        "shout", "yell", "scream", "scare", "scared", "uncomfortable",
+        "grab", "grabbed", "push", "pushed", "intimidate", "intimidated",
+        "spy", "spying", "photograph", "record", "watch", "watching",
+        "repeatedly", "again and again", "every day", "daily", "won't stop"
+    ]
 
-    return {"severity": "Low", "reason": "No strong indicators"}
-    if not description:
-        return "Low"
-
-    description = description.lower()
-
-    # Basic keywords
-    abusive_words = ["harass", "abuse", "stalk", "threat", "follow", "message"]
-    strong_words = ["kill", "attack", "rape", "murder", "kidnap"]
-
-    # Pattern-based detection
-    repeated_patterns = ["again and again", "repeatedly", "daily"]
+    # ── Tier 3: Low severity patterns ─────────────────────────────────────────
+    low_keywords = [
+        "unsafe", "dark", "lighting", "suspicious", "uncomfortable area",
+        "broken light", "no cctv", "isolated", "deserted", "sketchy"
+    ]
 
     score = 0
 
-    # Count abusive words
-    for word in abusive_words:
-        if word in description:
+    # High-weight scoring
+    for word in high_keywords:
+        if word in text:
+            score += 3
+
+    # Medium-weight scoring
+    for word in medium_keywords:
+        if word in text:
             score += 1
 
-    # Count strong words (higher weight)
-    for word in strong_words:
-        if word in description:
-            score += 2
+    # Description length adds context weight
+    if len(text) > 200:
+        score += 1
 
-    # Detect repeated harassment
-    for pattern in repeated_patterns:
-        if pattern in description:
-            score += 1
-
-    # Final classification
+    # ── Final classification ───────────────────────────────────────────────────
     if score >= 4:
-        return "High"
+        return "high"
     elif score >= 2:
-        return "Medium"
+        return "medium"
     else:
-        return "Low"
+        return "low"
+
+
+def get_severity_reason(description, severity):
+    """Returns a human-readable reason for the severity classification."""
+    reasons = {
+        "high":   "Critical threat indicators detected — immediate attention required.",
+        "medium": "Harassment or stalking patterns detected — review recommended.",
+        "low":    "Environmental safety concern — logged for community awareness."
+    }
+    return reasons.get(severity, "Analyzed and classified.")

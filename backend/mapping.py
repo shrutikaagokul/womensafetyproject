@@ -1,40 +1,63 @@
-# mapping.py
+# mapping.py — S.P.E.A.K. Map Data Preparation
 
 def prepare_map_data(reports):
+    """
+    Converts stored reports into map-ready format for the frontend MapView.
+    Each entry matches the shape expected by MapView.jsx:
+    { id, lat, lng, severity, types, description, time, address }
+    """
+    map_data = []
     location_count = {}
-    map_data = []
 
+    # ── Count incidents per coordinate (hotspot detection) ────────────────────
     for report in reports:
-        key = (report["latitude"], report["longitude"])
-        location_count[key] = location_count.get(key, 0) + 1
-
-    for report in reports:
-        key = (report["latitude"], report["longitude"])
-
-        map_data.append({
-            "lat": float(report["latitude"]),
-            "lng": float(report["longitude"]),
-            "severity": report["severity"],
-            "count": location_count[key],
-            "hotspot": location_count[key] >= 2
-        })
-
-    return map_data
-    map_data = []
-
-    for report in reports:
-        lat = report.get("latitude")
-        lng = report.get("longitude")
-        severity = report.get("severity")
-
         try:
-            if lat and lng:
-                map_data.append({
-                    "lat": float(lat),
-                    "lng": float(lng),
-                    "severity": severity
-                })
-        except:
-            continue  # skip invalid data
+            lat = float(report.get("latitude") or 0)
+            lng = float(report.get("longitude") or 0)
+            if lat == 0 and lng == 0:
+                continue
+            key = (round(lat, 4), round(lng, 4))
+            location_count[key] = location_count.get(key, 0) + 1
+        except (TypeError, ValueError):
+            continue
+
+    # ── Build map entries ─────────────────────────────────────────────────────
+    for report in reports:
+        try:
+            lat = float(report.get("latitude") or 0)
+            lng = float(report.get("longitude") or 0)
+            if lat == 0 and lng == 0:
+                continue
+
+            key = (round(lat, 4), round(lng, 4))
+            count = location_count.get(key, 1)
+
+            # Severity: use stored value (already lowercase from ai_analysis)
+            severity = report.get("severity", "low")
+            if isinstance(severity, dict):
+                # Legacy format guard — old ai_analysis returned a dict
+                severity = severity.get("severity", "low").lower()
+            severity = severity.lower()
+
+            # Incident types: stored as list from frontend chips
+            types = report.get("incident_types", [])
+            if not types:
+                types = ["Incident"]
+
+            map_data.append({
+                "id":          report.get("id", "SPK-???"),
+                "lat":         lat,
+                "lng":         lng,
+                "severity":    severity,
+                "types":       types,
+                "description": report.get("description", "No details provided."),
+                "address":     report.get("location", "Unknown location"),
+                "time":        report.get("time_ago", "Recently"),
+                "count":       count,
+                "hotspot":     count >= 2,
+            })
+
+        except (TypeError, ValueError):
+            continue
 
     return map_data
